@@ -1,25 +1,13 @@
-const { func } = require("assert-plus");
 const telegramApi = require("node-telegram-bot-api");
 const token = "5909896027:AAFD5demBsxBc9A7d3c8s4nH-R6xvYzbe0Y";
 
-const { gameOptions, againOptions } = require("./options");
-
 const bot = new telegramApi(token, { polling: true });
-
-const chats = {};
-
-async function startGame(chatId) {
-  await bot.sendMessage(chatId, "0 dan 10 bolgan son oyleman sen topasan ");
-  const randomNumber = Math.floor(Math.random() * 10);
-  chats[chatId] = randomNumber;
-  await bot.sendMessage(chatId, "Top", gameOptions);
-}
 
 function start() {
   bot.setMyCommands([
-    { command: "/start", description: "Salomlashuv" },
-    { command: "/info", description: "Malumotlaringiz" },
-    { command: "/game", description: "Oyincha" },
+    { command: "/start", description: "Start" },
+    { command: "/info", description: "User info" },
+    { command: "/clear", description: "Clear" },
   ]);
   bot.on("message", async (msg) => {
     const text = msg.text;
@@ -27,40 +15,45 @@ function start() {
     if (text === "/start") {
       await bot.sendSticker(
         chatId,
-        "https://tlgrm.eu/_/stickers/463/343/46334338-7539-4dae-bfb6-29e0bb04dc2d/192/11.webp"
+        "https://tlgrm.eu/_/stickers/463/343/46334338-7539-4dae-bfb6-29e0bb04dc2d/192/11.webp",
+        console.log(msg)
       );
       return bot.sendMessage(
         chatId,
-        `Salom Hush Kelibsiz meni Murojon Orifjonov yaratgan `
+        `Salom Hush Kelibsiz meni Murojon Orifjonov yaratgan  https://www.instagram.com/m__orifjonov/`
       );
     }
     if (text === "/info") {
       return bot.sendMessage(
         chatId,
-        `Telegramdagi nikingiz : '${msg.from.first_name}'`
+        `Telegramdagi nikingiz : '${msg.from.first_name} 
+         User: '${msg.from.username}'`
       );
     }
-    if (text === "/game") {
-      return startGame(chatId);
+    if (text === "/clear") {
+      bot.clearTextListeners();
     }
-    return bot.sendMessage(
-      chatId,
-      "Men seni tushunmayappan. Tushuntiribro yoz !"
-    );
-    //
-  });
-
-  bot.on("callback_query", async (msg) => {
-    const data = msg.data;
-    const chatId = msg.message.chat.id;
-    if (data === "/again") {
-      return startGame(chatId);
-    }
-    if (data === chats[chatId]) {
-      return await bot.sendMessage(chatId, "Malades topting", againOptions);
+    if (text.toLowerCase() === "salom") {
+      bot.sendMessage(chatId, `Salom ${msg.from.first_name} 😊`);
     } else {
-      return await bot.sendMessage(chatId, "Ola topomading", againOptions);
+      return bot.sendMessage(chatId, "Ko'p gapirishni yomon ko'raman 😒");
     }
   });
 }
 start();
+
+//    ishlamayapti ikkinchi fn ?
+
+// function messsage() {
+//   bot.on("message", async (msg) => {
+//     const msText = msg.text;
+//     const msChatId = msg.chat.id;
+//     if (msText.toLowerCase() === "Hello") {
+//       bot.sendMessage(msChatId, `Hello ${ms.from.first_name} 😊`);
+//       console.log(msChatId);
+//     } else {
+//       return bot.sendMessage(msChatId, "Men hali gaplashishni bilmiman ");
+//     }
+//   });
+// }
+// messsage();
