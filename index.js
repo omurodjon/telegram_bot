@@ -31,10 +31,18 @@ function start() {
       );
     }
     if (text === "/clear") {
-      bot.clearTextListeners();
+      bot.clearTextListeners(chatId, "/clear");
     }
     if (text.toLowerCase() === "salom") {
       bot.sendMessage(chatId, `Salom ${msg.from.first_name} 😊`);
+    } else {
+      return bot.sendMessage(chatId, "Ko'p gapirishni yomon ko'raman 😒");
+    }
+
+    // ishlamayapti
+
+    if (text.toLowerCase() === "nma gap") {
+      bot.sendMessage(chatId, `Nmedi ${msg.from.first_name} 😒`);
     } else {
       return bot.sendMessage(chatId, "Ko'p gapirishni yomon ko'raman 😒");
     }
