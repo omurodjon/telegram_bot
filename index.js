@@ -50,6 +50,7 @@ function start() {
 }
 start();
 
+//     togrlash kere
 //    ishlamayapti ikkinchi fn ?
 
 // function messsage() {
